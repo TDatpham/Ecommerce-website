@@ -27,6 +27,7 @@ import {
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
+import InventoryIcon from '@mui/icons-material/Warehouse';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -136,6 +137,10 @@ const Header = () => {
       <MenuItem onClick={() => { navigate('/cart'); handleMobileMenuClose(); }}>
         <ShoppingCartIcon sx={{ mr: 1 }} />
         Cart ({getTotalItems()})
+      </MenuItem>
+      <MenuItem onClick={() => { navigate('/inventory'); handleMobileMenuClose(); }}>
+        <InventoryIcon sx={{ mr: 1 }} />
+        Inventory
       </MenuItem>
       {!isAuthenticated ? (
         <MenuItem onClick={() => { navigate('/login'); handleMobileMenuClose(); }}>
@@ -254,6 +259,17 @@ const Header = () => {
             }}
           >
             Categories
+          </Button>
+          <Button
+            color="inherit"
+            startIcon={<InventoryIcon />}
+            onClick={() => navigate('/inventory')}
+            sx={{ 
+              color: location.pathname === '/inventory' ? 'secondary.main' : 'inherit',
+              fontWeight: location.pathname === '/inventory' ? 'bold' : 'normal'
+            }}
+          >
+            Inventory
           </Button>
         </Box>
 
