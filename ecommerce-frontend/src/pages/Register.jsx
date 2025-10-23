@@ -119,7 +119,7 @@ const Register = () => {
       } else {
         setError(result.error || 'Registration failed');
       }
-    } catch (err) {
+    } catch (_unusedError) {
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);

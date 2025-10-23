@@ -28,7 +28,7 @@ import {
   Remove as RemoveIcon,
 } from '@mui/icons-material';
 import { useParams, useNavigate } from 'react-router-dom';
-import { publicApi, customerApi } from '../services/api';
+import { publicApi } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
 

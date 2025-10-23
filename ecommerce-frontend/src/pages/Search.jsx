@@ -22,13 +22,12 @@ import {
   FilterList as FilterListIcon,
   Sort as SortIcon,
 } from '@mui/icons-material';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { publicApi } from '../services/api';
 import ProductCard from '../components/ProductCard';
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
   
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [products, setProducts] = useState([]);

@@ -1,3 +1,4 @@
+/* eslint react-refresh/only-export-components: off */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { publicApi, customerApi } from '../services/api';
 
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }) => {
         try {
           const response = await customerApi.getProfile();
           setUser(response.data);
-        } catch (error) {
+        } catch (_unusedError) {
           // Token is invalid, clear storage
           localStorage.removeItem('token');
           localStorage.removeItem('user');
@@ -68,7 +69,7 @@ export const AuthProvider = ({ children }) => {
         const error = await response.json();
         return { success: false, error: error.message || 'Login failed' };
       }
-    } catch (error) {
+    } catch (_unusedError) {
       return { success: false, error: 'Network error' };
     }
   };
@@ -77,10 +78,10 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await customerApi.register(userData);
       return { success: true, message: response.data };
-    } catch (error) {
+    } catch (e) {
       return { 
         success: false, 
-        error: error.response?.data?.message || 'Registration failed' 
+        error: e.response?.data?.message || 'Registration failed' 
       };
     }
   };
@@ -99,10 +100,10 @@ export const AuthProvider = ({ children }) => {
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
       return { success: true, message: response.data };
-    } catch (error) {
+    } catch (e) {
       return { 
         success: false, 
-        error: error.response?.data?.message || 'Update failed' 
+        error: e.response?.data?.message || 'Update failed' 
       };
     }
   };
@@ -111,10 +112,10 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await customerApi.changePassword(passwordData);
       return { success: true, message: response.data };
-    } catch (error) {
+    } catch (e) {
       return { 
         success: false, 
-        error: error.response?.data?.message || 'Password change failed' 
+        error: e.response?.data?.message || 'Password change failed' 
       };
     }
   };
@@ -123,10 +124,10 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await publicApi.forgotPassword(email);
       return { success: true, message: response.data };
-    } catch (error) {
+    } catch (e) {
       return { 
         success: false, 
-        error: error.response?.data?.message || 'Request failed' 
+        error: e.response?.data?.message || 'Request failed' 
       };
     }
   };
@@ -135,10 +136,10 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await publicApi.resetPassword(resetData);
       return { success: true, message: response.data };
-    } catch (error) {
+    } catch (e) {
       return { 
         success: false, 
-        error: error.response?.data?.message || 'Reset failed' 
+        error: e.response?.data?.message || 'Reset failed' 
       };
     }
   };

@@ -101,7 +101,7 @@ const Profile = () => {
       } else {
         setError(result.error || 'Failed to update profile');
       }
-    } catch (err) {
+    } catch (_unusedError) {
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
@@ -136,7 +136,7 @@ const Profile = () => {
       } else {
         setError(result.error || 'Failed to change password');
       }
-    } catch (err) {
+    } catch (_unusedError) {
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
