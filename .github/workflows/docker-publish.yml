@@ -9,6 +9,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_BACKEND_NAME: ${{ github.repository }}-backend
   IMAGE_FRONTEND_NAME: ${{ github.repository }}-frontend
+  IMAGE_INVENTORY_NAME: ${{ github.repository }}-inventory
 
 jobs:
   build-and-push:
@@ -48,6 +49,19 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_FRONTEND_NAME }}
 
       - name: Build and push frontend
+      - name: Extract metadata (inventory)
+        id: meta-inventory
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_INVENTORY_NAME }}
+
+      - name: Build and push inventory
+        uses: docker/build-push-action@v6
+        with:
+          context: inventory-service
+          push: true
+          tags: ${{ steps.meta-inventory.outputs.tags }}
+          labels: ${{ steps.meta-inventory.outputs.labels }}
         uses: docker/build-push-action@v6
         with:
           context: ecommerce-frontend

@@ -23,6 +23,22 @@ jobs:
       - name: Build & test (Maven)
         run: mvn -B -DskipTests=false test package
 
+  inventory:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: inventory-service
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+      - name: Build & test (Maven)
+        run: ./mvnw -B -DskipTests=false test package
+
   frontend:
     runs-on: ubuntu-latest
     defaults:
