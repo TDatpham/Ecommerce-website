@@ -24,6 +24,7 @@ import Categories from './pages/Categories';
 import Search from './pages/Search';
 import Profile from './pages/Profile';
 import Orders from './pages/Orders';
+import Inventory from './pages/Inventory';
 
 // Create theme
 const theme = createTheme({
@@ -71,6 +72,7 @@ function App() {
                       <Route path="/search" element={<Search />} />
                       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                       <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+                      <Route path="/inventory" element={<Inventory />} />
                       <Route path="/product/:productId" element={<ProductDetail />} />
                       <Route path="/category/:categoryId" element={<Categories />} />
                       {/* Add more routes as needed */}
