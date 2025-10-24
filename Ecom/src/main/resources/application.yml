@@ -1,6 +1,13 @@
 spring:
   application:
     name: ecom-service
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    properties:
+      spring.json.add.type.headers: false
 
 eureka:
   client:
@@ -8,3 +15,7 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://discovery-service:8761/eureka/
+
+kafka:
+  topics:
+    order-confirmed: ${ORDER_CONFIRMED_TOPIC:order.confirmed}

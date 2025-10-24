@@ -1,6 +1,9 @@
+com/app/inventory/config/KafkaConsumerConfig.class
 com/app/inventory/InventoryServiceApplication.class
-com/app/inventory/repo/InventoryItemRepository.class
 com/app/inventory/model/InventoryItem.class
+com/app/inventory/repo/InventoryItemRepository.class
+com/app/inventory/messaging/OrderConfirmedListener.class
 com/app/inventory/controller/InventoryController.class
 com/app/inventory/service/InventoryService.class
 com/app/inventory/service/InventoryServiceImpl.class
+com/app/inventory/events/OrderConfirmedEvent.class
