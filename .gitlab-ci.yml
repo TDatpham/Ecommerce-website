@@ -1,0 +1,65 @@
+stages:
+  - build
+  - test
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  NODE_ENV: production
+
+cache:
+  paths:
+    - .m2/repository
+    - ecommerce-frontend/node_modules
+
+backend-build:
+  stage: build
+  image: maven:3.9.9-eclipse-temurin-17
+  before_script:
+    - cd Ecom
+  script:
+    - mvn -B -DskipTests package
+  artifacts:
+    paths:
+      - Ecom/target/*.jar
+
+backend-test:
+  stage: test
+  image: maven:3.9.9-eclipse-temurin-17
+  needs: ["backend-build"]
+  before_script:
+    - cd Ecom
+  script:
+    - mvn -B test
+
+inventory-build:
+  stage: build
+  image: maven:3.9.9-eclipse-temurin-17
+  before_script:
+    - cd inventory-service
+  script:
+    - ./mvnw -B -DskipTests package || mvn -B -DskipTests package
+  artifacts:
+    paths:
+      - inventory-service/target/*.jar
+
+inventory-test:
+  stage: test
+  image: maven:3.9.9-eclipse-temurin-17
+  needs: ["inventory-build"]
+  before_script:
+    - cd inventory-service
+  script:
+    - ./mvnw -B test || mvn -B test
+
+frontend-build:
+  stage: build
+  image: node:20
+  before_script:
+    - cd ecommerce-frontend
+  script:
+    - npm ci
+    - npm run lint --if-present
+    - npm run build
+  artifacts:
+    paths:
+      - ecommerce-frontend/dist
