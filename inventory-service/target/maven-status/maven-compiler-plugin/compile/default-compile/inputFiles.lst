@@ -1,5 +1,6 @@
 /workspace/inventory-service/src/main/java/com/app/inventory/InventoryServiceApplication.java
 /workspace/inventory-service/src/main/java/com/app/inventory/controller/InventoryController.java
+/workspace/inventory-service/src/main/java/com/app/inventory/messaging/OrderEventListener.java
 /workspace/inventory-service/src/main/java/com/app/inventory/model/InventoryItem.java
 /workspace/inventory-service/src/main/java/com/app/inventory/repo/InventoryItemRepository.java
 /workspace/inventory-service/src/main/java/com/app/inventory/service/InventoryService.java

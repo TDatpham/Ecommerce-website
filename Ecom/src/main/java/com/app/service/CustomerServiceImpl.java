@@ -80,6 +80,9 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private EmailService emailService;
 
+    @Autowired(required = false)
+    private OrderEventPublisher orderEventPublisher;
+
 	@Value("${pmt.key_id}")
 	private String key_id;
 	@Value("${pmt.key_secret}")
@@ -384,8 +387,15 @@ public class CustomerServiceImpl implements CustomerService {
 		if (orderItem.getPaymentType() == PaymentType.ONLINE)
 			orderItem.setPaymentStatus(PaymentStatus.PAID);
 
-		ordersRepo.save(customer.getOrders());
-		productRepo.save(product);
+        ordersRepo.save(customer.getOrders());
+        productRepo.save(product);
+
+        if (orderEventPublisher != null) {
+            orderEventPublisher.publishOrderConfirmed(
+                    orderItem.getOrderItemId(),
+                    orderItem.getProductId(),
+                    orderItem.getQuantity());
+        }
 
 		return "Your Product will be delivered within a week";
 	}
