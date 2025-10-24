@@ -10,6 +10,8 @@ env:
   IMAGE_BACKEND_NAME: ${{ github.repository }}-backend
   IMAGE_FRONTEND_NAME: ${{ github.repository }}-frontend
   IMAGE_INVENTORY_NAME: ${{ github.repository }}-inventory
+  IMAGE_DISCOVERY_NAME: ${{ github.repository }}-discovery
+  IMAGE_GATEWAY_NAME: ${{ github.repository }}-gateway
 
 jobs:
   build-and-push:
@@ -62,6 +64,34 @@ jobs:
           push: true
           tags: ${{ steps.meta-inventory.outputs.tags }}
           labels: ${{ steps.meta-inventory.outputs.labels }}
+
+      - name: Extract metadata (discovery)
+        id: meta-discovery
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_DISCOVERY_NAME }}
+
+      - name: Build and push discovery
+        uses: docker/build-push-action@v6
+        with:
+          context: discovery-service
+          push: true
+          tags: ${{ steps.meta-discovery.outputs.tags }}
+          labels: ${{ steps.meta-discovery.outputs.labels }}
+
+      - name: Extract metadata (gateway)
+        id: meta-gateway
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_GATEWAY_NAME }}
+
+      - name: Build and push gateway
+        uses: docker/build-push-action@v6
+        with:
+          context: api-gateway
+          push: true
+          tags: ${{ steps.meta-gateway.outputs.tags }}
+          labels: ${{ steps.meta-gateway.outputs.labels }}
         uses: docker/build-push-action@v6
         with:
           context: ecommerce-frontend

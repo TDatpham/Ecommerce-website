@@ -1,0 +1,22 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: Ecom
+  datasource:
+    url: jdbc:mysql://localhost:3306/ecomdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: 1234567890
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    preferIpAddress: true
