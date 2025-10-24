@@ -45,6 +45,7 @@ import com.app.repo.OrdersRepo;
 import com.app.repo.OtpRepo;
 import com.app.repo.ProductRepo;
 import com.app.utils.FieldValidationUtil;
+import com.app.events.OrderConfirmedEvent;
 import com.razorpay.*;
 
 @Service
@@ -79,6 +80,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private EmailService emailService;
+
+    @Autowired
+    private OrderEventPublisher orderEventPublisher;
 
 	@Value("${pmt.key_id}")
 	private String key_id;
@@ -384,10 +388,20 @@ public class CustomerServiceImpl implements CustomerService {
 		if (orderItem.getPaymentType() == PaymentType.ONLINE)
 			orderItem.setPaymentStatus(PaymentStatus.PAID);
 
-		ordersRepo.save(customer.getOrders());
-		productRepo.save(product);
+        ordersRepo.save(customer.getOrders());
+        productRepo.save(product);
 
-		return "Your Product will be delivered within a week";
+        OrderConfirmedEvent event = new OrderConfirmedEvent(
+                orderItem.getOrderItemId(),
+                orderItem.getProductId(),
+                String.valueOf(orderItem.getProductId()),
+                orderItem.getQuantity(),
+                orderItem.getUser(),
+                orderItem.getProduct()
+        );
+        orderEventPublisher.publish(event);
+
+        return "Your Product will be delivered within a week";
 	}
 
 	@Override
